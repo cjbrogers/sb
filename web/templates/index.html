@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Yahoo Fantasy Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Roboto" rel="stylesheet">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
+
+
+
+    <style>
+        body {
+            background-color: #FCFCFC;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .page {
+            width: 70%;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .league th {
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+        }
+
+        div.container.header {
+            font-family: 'Nunito Sans', sans-serif;
+        }
+
+        .navbar-xs .navbar-brand {
+            padding: 20px 8px;
+            font-size: 30px;
+            line-height: 14px;
+        }
+
+        .yahoo {
+            color: #410093;
+        }
+
+        .nav-title {
+            color: #2196F3;
+        }
+
+        .bootstrap-select>.dropdown-toggle.bs-placeholder,
+        .bootstrap-select>.dropdown-toggle.bs-placeholder:active,
+        .bootstrap-select>.dropdown-toggle.bs-placeholder:focus,
+        .bootstrap-select>.dropdown-toggle.bs-placeholder:hover {
+            color: white;
+        }
+    </style>
+
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+
+</head>
+
+<div class="container header">
+    <nav class="navbar navbar-default navbar-xs" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+            <a class="navbar-brand" href="{{ url_for('index') }}"><b><span class='yahoo'>Yahoo!</span></b> <span class='nav-title'>Fantasy Hockey Dashboard</span></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav pull-right">
+                <li><a href="#"><i class="glyphicon glyphicon-adjust"></i></a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-bell"></i></a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-user"></i></a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Update</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </nav>
+</div>
+
+<body>
+
+    <div class="page">
+        <div class="container-fluid">
+            <br />
+            <h3>Howdy! Get started by selecting a team and week below.</h3>
+            <hr />
+            <div class="row">
+
+                <div class="col-sm-6 col-lg-3 col-lg-offset-3">
+                    <select class="selectpicker show-tick form-control" data-width="auto" data-live-search="true" title="Choose a Week..." form="week_team" name="week">
+                    {% for i in range(1,24) %}
+                        <option value='{{i|safe}}'>Week {{i|safe}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <select class="selectpicker show-tick form-control" data-width="auto" data-live-search="true" title="Choose Your Team..." form="week_team" name="team">
+                    {% for k,v in df_league.iterrows() %}
+                        <option value="{{v['Name']|safe}}">{{v['Name']|safe}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <form method="post" action="{{ url_for('show_tables') }}" id="week_team">
+                    <button type="submit" class="btn btn-primary">Show Me Stats</button>
+                </form>
+                <hr /><br />
+                <h3><span class='table-titles'>{{title|safe}}</span></h3> {{ table|safe }}
+            </div>
+            <br />
+            <hr /><br />
+        </div>
+    </div>
+
+    <script>
+        $('.selectpicker').selectpicker({
+            style: 'btn-info',
+            size: 10
+        });
+    </script>
+</body>
+
+</html>

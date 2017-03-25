@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+    <title>Yahoo Fantasy Dashboard</title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/fh-3.1.2/r-2.1.0/sc-1.4.2/se-1.2.0/datatables.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Roboto" rel="stylesheet">
+
+<style>
+body {background-color: #FCFCFC;font-family: 'Roboto', sans-serif;}
+.page {
+    width: 80%;
+    text-align: center;
+    margin: 0 auto;
+}
+.league th {background-color: #3498db;color: white;}
+.player th {background-color: #2ecc71;color: white;}
+.player-all th {background-color: #1abc9c;color: white;}
+.player-all-past th {background-color: #e67e22;color: white;}
+th, td {text-align: center;}
+.container {font-family: 'Nunito Sans', sans-serif;}
+.navbar-xs { min-height:22px; border-radius:0; text-align: center;}
+.navbar-xs .navbar-brand{ padding: 20px 8px;font-size: 30px;line-height: 14px; }
+.navbar-xs .navbar-nav > li > a {
+    border-right:1px solid #ddd;
+    padding-top: 15px;
+    padding-bottom: 2px;
+    line-height: 16px;
+    text-align: right;
+}
+.navbar-header {margin-left: 10%;}
+.navbar-nav {margin-right: 10%; vertical-align: middle;}
+.yahoo {color: #410093;}
+.nav-title {color: #2196F3;}
+.nav-week {font-size: 0.7em;}
+.table-titles {color: #616161;}
+tbody > tr:nth-child(n+1) {background-color: white;}
+</style>
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/fh-3.1.2/r-2.1.0/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
+
+</head>
+
+<div class="container">
+    <nav class="navbar navbar-default navbar-xs" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+      <a class="navbar-brand" href="{{ url_for('index') }}"><b><span class='yahoo'>Yahoo!</span></b> <span class='nav-title'>Fantasy Hockey Dashboard</span><span class='nav-week'> - Week {{ week_no|safe }}</span></a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav pull-right">
+      <li><a href="#"><i class="glyphicon glyphicon-adjust"></i></a></li>
+      <li><a href="#"><i class="glyphicon glyphicon-bell"></i></a></li>
+      <li><a href="#"><i class="glyphicon glyphicon-user"></i></a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+          <li class="divider"></li>
+          <li><a href="#">One more separated link</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<body>
+    <div class="page">
+        <br /><br />
+        {% for table in tables %}
+        <h3><span class='table-titles'>{{titles[loop.index]}}</span></h3>
+        {% if loop.index == 1 %}
+            <h3><span class='table-titles'>Weekly Projected Points: <b>{{points|safe}}</b></span></h3>
+        {% endif %}
+            {{ table|safe }}
+        <br /><hr /><br />
+        {% endfor %}
+      </div>
+
+<script>
+$(document).ready(function() {
+    $('.table').DataTable({
+        "iDisplayLength": 26
+    });
+});
+</script>
+
+</body>
+</html>
